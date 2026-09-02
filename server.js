@@ -97,7 +97,7 @@ Retorne SOMENTE JSON válido no seguinte formato:
 `;
 
     const response = await ai.models.generateContent({
-      models/gemini-3.6-flash
+      model: "gemini-3.6-flash",
       contents: [
         {
           role: "user",
