@@ -133,7 +133,12 @@ for (let tentativa = 1; tentativa <= 3; tentativa++) {
       erro?.cause?.code === "UND_ERR_HEADERS_TIMEOUT" ||
       String(erro?.message || "").includes("fetch failed");
 
-    const temporario = status === 503 || status === "503" || timeout;
+    const temporario =
+  status === 503 ||
+  status === "503" ||
+  status === 429 ||
+  status === "429" ||
+  timeout;
 
     if (!temporario || tentativa === 3) {
       throw erro;
