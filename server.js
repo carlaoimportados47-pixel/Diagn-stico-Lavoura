@@ -96,7 +96,11 @@ Retorne SOMENTE JSON válido no seguinte formato:
 }
 `;
 
-    const response = await ai.models.generateContent({
+    let response;
+
+for (let tentativa = 1; tentativa <= 3; tentativa++) {
+  try {
+    response = await ai.models.generateContent({
       model: "gemini-3.6-flash",
       contents: [
         {
@@ -118,6 +122,28 @@ Retorne SOMENTE JSON válido no seguinte formato:
         responseMimeType: "application/json"
       }
     });
+
+    break;
+
+  } catch (erro) {
+    console.error(`Tentativa ${tentativa} falhou:`, erro);
+
+    const status = erro?.status || erro?.code;
+    const timeout =
+      erro?.cause?.code === "UND_ERR_HEADERS_TIMEOUT" ||
+      String(erro?.message || "").includes("fetch failed");
+
+    const temporario = status === 503 || status === "503" || timeout;
+
+    if (!temporario || tentativa === 3) {
+      throw erro;
+    }
+
+    await new Promise(resolve =>
+      setTimeout(resolve, tentativa * 2000)
+    );
+  }
+}
 
     const texto = response.text.trim();
 
