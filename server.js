@@ -101,7 +101,7 @@ Retorne SOMENTE JSON válido no seguinte formato:
 for (let tentativa = 1; tentativa <= 3; tentativa++) {
   try {
     response = await ai.models.generateContent({
-      model: "gemini-3.6-flash",
+      model: tentativa === 1 ? "gemini-3.6-flash" : "gemini-2.5-flash",
       contents: [
         {
           role: "user",
