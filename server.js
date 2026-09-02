@@ -106,7 +106,7 @@ Responda SOMENTE em JSON válido neste formato:
 `;
 
       const response = await openai.responses.create({
-        model: "gpt-5.4-mini",
+        model: "gpt-5.6-luna",
         input: [
           {
             role: "user",
